@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../data/models/invoice_model.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
+  const HomeView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text('Invoice Manager',style: TextStyle(
+        title: Text('Invoice Manager',
+        style: TextStyle(
           fontWeight: FontWeight.bold
         ),),
         centerTitle: true,
@@ -20,8 +21,8 @@ class HomeView extends GetView<HomeController> {
         itemBuilder: (context, index) {
           final invoice = controller.invoices[index];
           return ListTile(
-            title: Text('Invoice #${invoice.invoiceNumber}'),
-            subtitle: Text('${invoice.customerName} - \$${invoice.totalAmount.toStringAsFixed(2)}'),
+            title: Text('Invoice #${invoice['invoiceNumber']}'),
+            subtitle: Text('${invoice['customerName']} - \$${invoice['totalAmount'].toStringAsFixed(2)}'),
             trailing: IconButton(
               icon: Icon(Icons.download_outlined),
               onPressed: () => controller.downloadInvoicePDF(invoice),
@@ -42,6 +43,9 @@ class HomeView extends GetView<HomeController> {
   void _showAddInvoiceDialog(BuildContext context) {
     final invoiceNumberController = TextEditingController();
     final customerNameController = TextEditingController();
+     final descriptionController = TextEditingController();
+    final quantityController = TextEditingController();
+    final priceController = TextEditingController();
 
     showDialog(
       context: context,
@@ -59,8 +63,23 @@ class HomeView extends GetView<HomeController> {
                 controller: customerNameController,
                 decoration: InputDecoration(labelText: 'Customer Name'),
               ),
-            ],
-          ),
+              
+                TextField(
+                  controller: descriptionController,
+                  decoration: InputDecoration(labelText: 'Item Description'),
+                ),
+                TextField(
+                  controller: quantityController,
+                  decoration: InputDecoration(labelText: 'Quantity'),
+                  keyboardType: TextInputType.number,
+                ),
+                TextField(
+                  controller: priceController,
+                  decoration: InputDecoration(labelText: 'Price'),
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                ),
+              ],
+            ),
           actions: [
             TextButton(
               child: Text('Cancel'),
@@ -69,17 +88,20 @@ class HomeView extends GetView<HomeController> {
             ElevatedButton(
               child: Text('Add'),
               onPressed: () {
-                final newInvoice = Invoice(
+              
+                final item = {
+                  'description': descriptionController.text,
+                  'quantity': int.parse(quantityController.text),
+                  'price': double.parse(priceController.text),
+                };
+
+              
+                controller.addInvoice(
                   invoiceNumber: invoiceNumberController.text,
                   customerName: customerNameController.text,
-                  date: DateTime.now().toString().split(' ')[0],
-                  items: [
-                    InvoiceItem(description: 'Service', quantity: 1, price: 100.0),
-                  ],
-                  totalAmount: 100.0,
+                  items: [item],
                 );
-                
-                controller.addInvoice(newInvoice);
+
                 Get.back();
               },
             ),
