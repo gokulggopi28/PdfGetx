@@ -37,23 +37,23 @@ class HomeController extends GetxController {
       pdf.addPage(
         pw.Page(
           build: (pw.Context context) => pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            crossAxisAlignment: pw.CrossAxisAlignment.center,
             children: [
               pw.Text('Invoice', style: pw.TextStyle(fontSize: 24, fontWeight: pw.FontWeight.bold)),
               pw.SizedBox(height: 20),
-              pw.Text('Invoice Number: ${invoice['invoiceNumber']}'),
-              pw.Text('Customer: ${invoice['customerName']}'),
-              pw.Text('Date: ${invoice['date']}'),
+              pw.Text('Invoice Number: ${invoice['invoiceNumber']}', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 18)),
+              pw.Text('Customer: ${invoice['customerName']}', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 18)),
+              pw.Text('Date: ${invoice['date']}', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 18)),
               pw.SizedBox(height: 20),
               pw.Table(
                 border: pw.TableBorder.all(),
                 children: [
                   pw.TableRow(
                     children: [
-                      pw.Text('Description', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Quantity', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Price', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
-                      pw.Text('Total', style: pw.TextStyle(fontWeight: pw.FontWeight.bold)),
+                      pw.Text('Description', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 18)),
+                      pw.Text('Quantity', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 18)),
+                      pw.Text('Price', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 18)),
+                      pw.Text('Total', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 18)),
                     ],
                   ),
                   ...List.generate(
@@ -62,10 +62,10 @@ class HomeController extends GetxController {
                       final item = invoice['items'][index];
                       return pw.TableRow(
                         children: [
-                          pw.Text(item['description']),
-                          pw.Text(item['quantity'].toString()),
-                          pw.Text('\$${item['price'].toStringAsFixed(2)}'),
-                          pw.Text('\$${(item['quantity'] * item['price']).toStringAsFixed(2)}'),
+                          pw.Text(item['description'], style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 16)),
+                          pw.Text(item['quantity'].toString(), style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 16),textAlign: pw.TextAlign.center),
+                          pw.Text('\$${item['price'].toStringAsFixed(2)}', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 16)),
+                          pw.Text('\$${(item['quantity'] * item['price']).toStringAsFixed(2)}', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 16)),
                         ],
                       );
                     }

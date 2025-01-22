@@ -24,7 +24,7 @@ class HomeView extends GetView<HomeController> {
             title: Text('Invoice #${invoice['invoiceNumber']}'),
             subtitle: Text('${invoice['customerName']} - \$${invoice['totalAmount'].toStringAsFixed(2)}'),
             trailing: IconButton(
-              icon: Icon(Icons.download_outlined),
+              icon: Icon(Icons.print_rounded),
               onPressed: () => controller.downloadInvoicePDF(invoice),
             ),
           );
